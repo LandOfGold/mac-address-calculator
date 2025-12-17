@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAC Address Calculator</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 16px;
+    }
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #0066ff;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:active {
+      background: #004fcc;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 14px;
+      background: #f0f4ff;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .mac {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-top: 6px;
+    }
+    .hint {
+      font-size: 12px;
+      color: #555;
+      margin-top: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>MAC Address Calculator</h1>
+
+    <label for="serial">Serial Number</label>
+    <input
+      id="serial"
+      type="number"
+      inputmode="numeric"
+      placeholder="Enter serial number"
+    />
+
+    <button onclick="calculateMAC()">Calculate MAC</button>
+
+    <div id="output" class="result" style="display:none;">
+      <div>MAC Address</div>
+      <div id="mac" class="mac"></div>
+    </div>
+
+    <div class="hint">
+      Format: <strong>02.00.00.X.Y.Z</strong><br />
+      X, Y, Z derived from serial HEX value
+    </div>
+  </div>
+
+  <script>
+    function calculateMAC() {
+      const serialInput = document.getElementById('serial').value.trim();
+      if (!serialInput) return;
+
+      const hex = BigInt(serialInput).toString(16).toUpperCase().padStart(6, '0');
+
+      const x = hex.slice(-2);
+      const y = hex.slice(-4, -2);
+      const z = hex.slice(-6, -4);
+
+      const mac = `02.00.00.${x}.${y}.${z}`;
+
+      document.getElementById('mac').innerText = mac;
+      document.getElementById('output').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
